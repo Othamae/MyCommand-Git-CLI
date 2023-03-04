@@ -6,16 +6,16 @@
   "bin": {
     "mycommand": "./src/index.js"
   },
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "co": "mycommand",
+    "myco": "node ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Veronica Conesa",
   "license": "ISC",
   "devDependencies": {
-    "mycommand": "file:/.",
+    "mycommand": "file:",
     "standard": "17.0.0"
   },
   "eslintConfig": {

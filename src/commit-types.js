@@ -1,4 +1,4 @@
-export const COMMIT_TYPES = {
+export  const COMMIT_TYPES = {
 
   feat: {
     emoji: '🆕',
