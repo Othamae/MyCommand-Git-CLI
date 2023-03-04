@@ -2,10 +2,11 @@ import { intro, outro, text, select, confirm, multiselect, isCancel } from '@cla
 import colors from 'picocolors'
 import { trytm } from '@bdsqqq/try'
 
+import { exitProgram } from './utils.js'
 import { COMMIT_TYPES } from './commit-types.js'
 import { getChangeFiles, getStagesFiles, gitCommit, gitAdd } from './git.js'
 
-intro(colors.inverse(`Commits creation ${colors.magenta(' ASSISTANT ')}`))
+intro(colors.inverse(`Commits creation assistant by ${colors.magenta(' @othamae ')}`))
 
 const [changedFiles, errorChangedFiles] = await trytm(getChangeFiles())
 const [stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
@@ -24,10 +25,7 @@ if (stagesFiles.length === 0 && changedFiles.length > 0) {
     }))
   })
 
-  if (isCancel(files)) {
-    outro(colors.red('Error: No files to commit'))
-    process.exit(0)
-  }
+  if (isCancel(files)) exitProgram()
 
   await gitAdd({ files })
 }
@@ -43,6 +41,8 @@ const commitType = await select({
 
 })
 
+if (isCancel(commitType)) exitProgram()
+
 console.log(commitType)
 
 const commitMsg = await text({
@@ -55,6 +55,8 @@ const commitMsg = await text({
 
 })
 
+if (isCancel(commitMsg)) exitProgram()
+
 const { emoji, release } = COMMIT_TYPES[commitType]
 
 let breakingChange = false
@@ -64,6 +66,8 @@ if (release) {
     message: `${colors.cyan('Does this commit have changes that break previous compatibility?')}
         ${colors.yellow('If the answer is yes, you should create a commit with the type "BREAKING CHANGE" and when you release a major version will be published')}`
   })
+
+  if (isCancel(breakingChange)) exitProgram()
 }
 
 let commit = `${emoji} ${commitType} ${commitMsg}`
@@ -77,6 +81,8 @@ const shouldContinue = await confirm({
     
     ${colors.cyan('Do your confirm?')}`
 })
+
+if (isCancel(shouldContinue)) exitProgram()
 
 if (!shouldContinue) {
   outro(colors.yellow('Commit not created.'))
