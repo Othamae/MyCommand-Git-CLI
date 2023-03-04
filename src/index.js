@@ -1,4 +1,4 @@
-import { intro, outro, text, select, confirm, multiselect } from '@clack/prompts'
+import { intro, outro, text, select, confirm, multiselect, isCancel } from '@clack/prompts'
 import colors from 'picocolors'
 import { trytm } from '@bdsqqq/try'
 
@@ -16,7 +16,6 @@ if (errorChangedFiles ?? errorStagesFiles) {
 }
 
 if (stagesFiles.length === 0 && changedFiles.length > 0) {
-  // TODO: luego lo vamos a mejorar para que deje seleccionar los archivos que queremos hacer commit
   const files = await multiselect({
     message: colors.cyan('Please, select the files you want to add to the commit:'),
     options: changedFiles.map(file => ({
@@ -25,9 +24,12 @@ if (stagesFiles.length === 0 && changedFiles.length > 0) {
     }))
   })
 
+  if (isCancel(files)) {
+    outro(colors.red('Error: No files to commit'))
+    process.exit(0)
+  }
+
   await gitAdd({ files })
-//   outro(colors.red('Error: No files to commit'))
-//   process.exit(1)
 }
 
 console.log({ changedFiles, stagesFiles })
