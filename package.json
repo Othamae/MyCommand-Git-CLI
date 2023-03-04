@@ -1,7 +1,7 @@
 {
   "name": "mycommand",
   "version": "1.0.0",
-  "description": "",
+  "description": "Commit CLI_To help you create easier commits",
   "type": "module",
   "bin": {
     "mycommand": "./src/index.js"
@@ -12,11 +12,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Veronica Conesa",
   "license": "ISC",
   "devDependencies": {
-    "mycommand": "file://.",
-    "standard": "^17.0.0"
+    "mycommand": "file:/.",
+    "standard": "17.0.0"
   },
   "eslintConfig": {
     "extends": "standard"

@@ -12,7 +12,7 @@ const [stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
 
 if (errorChangedFiles ?? errorStagesFiles) {
   outro(colors.red('Error: Check that you are in a git repository'))
-  process.exit(1) // Para salir del proceso en el 1 (significa que hay un error) el 0 es cuando todo ha ido bien
+  process.exit(1)
 }
 
 if (stagesFiles.length === 0 && changedFiles.length > 0) {
