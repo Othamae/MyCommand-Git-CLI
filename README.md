@@ -8,7 +8,7 @@
 -   To install the package, type in your terminal:
 
 ```
-npm install -g mycommand
+npm install -g mycommandcli 
 ```
 
 #### Run it
@@ -16,6 +16,6 @@ npm install -g mycommand
 -   To run it, type the following command in your terminal:
 
 ```
-npm myco
+npx mycocli
 ```
 
