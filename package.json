@@ -1,7 +1,7 @@
 {
   "name": "mycommand",
   "version": "1.0.0",
-  "description": "Commit CLI_To help you create easier commits",
+  "description": "Commit CLI_To help you create easier commits ",
   "type": "module",
   "bin": {
     "mycommand": "./src/index.js"
