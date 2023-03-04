@@ -1,10 +1,10 @@
 {
-  "name": "mycommand",
-  "version": "1.0.0",
+  "name": "mycommandcli",
+  "version": "1.0.1",
   "description": "Commit CLI_To help you create easier commits ",
   "type": "module",
   "bin": {
-    "mycommand": "./src/index.js"
+    "mycommand": "./src/bin.js"
   },
   "main": "./src/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   "dependencies": {
     "@bdsqqq/try": "2.3.1",
     "@clack/prompts": "0.6.1",
+    "mycommandcli": "^1.0.0",
     "picocolors": "1.0.0"
   }
 }
