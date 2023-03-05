@@ -43,6 +43,6 @@ export async function gitCreateRepo () {
 }
 
 export async function gitPush () {
-  const { stdout } = await execAsync('config --global push.autoSetupRemote true')
+  const { stdout } = await execAsync('git push')
   return cleanStdout(stdout)
 }
