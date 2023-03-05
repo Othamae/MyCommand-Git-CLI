@@ -24,7 +24,7 @@ if (errorChangedFiles ?? errorStagesFiles) {
   if (createGitInit) {
     await gitInit()
     outro(colors.green('✔ Git successfully created!!'))
-    process.exit(1)
+    process.exit(0)
   } else {
     outro(colors.red('There is no git for this repository'))
     process.exit(1)
