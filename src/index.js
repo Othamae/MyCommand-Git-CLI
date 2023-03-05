@@ -4,7 +4,7 @@ import { trytm } from '@bdsqqq/try'
 
 import { exitProgram } from './utils.js'
 import { COMMIT_TYPES } from './commit-types.js'
-import { getChangeFiles, getStagesFiles, gitCommit, gitAdd, gitInit } from './git.js'
+import { getChangeFiles, getStagesFiles, gitCommit, gitAdd, gitInit, gitPush } from './git.js'
 
 intro(colors.inverse(`Commits creation assistant by ${colors.magenta(' @othamae ')}`))
 
@@ -105,5 +105,26 @@ if (!shouldContinue) {
 }
 
 await gitCommit({ commit })
+console.log(colors.green('✔ Commit successfully created!'))
 
-outro(colors.green(`✔ Commit successfully created. ${colors.magenta(' Thanks for using the assistant! ')}`))
+// TODO: check if the repo exist
+// if so, ask to push. -->gitPush
+// if no --> ask to create a new repo and push the changes
+
+// gitCreateRepo
+
+const mergeChanges = await confirm({
+  initialValue: true,
+  message: `${colors.cyan('Do you want to push the changes to GitHub?')}`
+})
+
+if (isCancel(mergeChanges)) exitProgram()
+
+if (!mergeChanges) {
+  outro(colors.yellow(`Changed not pushed. ${colors.magenta(' Thanks for using the assistant! ')}`))
+  process.exit(0)
+}
+
+await gitPush()
+
+outro(colors.green(`✔ Changed successfully pushed to GitHub. ${colors.magenta(' Thanks for using the assistant! ')}`))

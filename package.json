@@ -4,7 +4,7 @@
   "description": "Commit CLI_To help you create easier commits ",
   "type": "module",
   "bin": {
-    "mycocli": "./src/bin.js" 
+    "mycocli": "./src/bin.js"
   },
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "author": "Veronica Conesa",
   "license": "ISC",
   "devDependencies": {
-    "mycocli":"file://.",
+    "mycocli": "file://.",
     "standard": "17.0.0"
   },
   "eslintConfig": {
@@ -24,6 +24,8 @@
   "dependencies": {
     "@bdsqqq/try": "2.3.1",
     "@clack/prompts": "0.6.1",
+    "configstore": "^6.0.0",
+    "mycommandcli": "^1.0.6",
     "picocolors": "1.0.0"
   }
 }
