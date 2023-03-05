@@ -36,3 +36,13 @@ export async function gitAdd ({ files = [] } = {}) {
   const { stdout } = await execAsync(`git add ${filesLine}`)
   return cleanStdout(stdout)
 }
+
+export async function gitCreateRepo () {
+  const { stdout } = await execAsync(`git remote add origin gitgit@github.com:${process.env.GIT_USERNAME}/<reponame>.git`)
+  return cleanStdout(stdout)
+}
+
+export async function gitPush () {
+  const { stdout } = await execAsync('git push -u origin main')
+  return cleanStdout(stdout)
+}
