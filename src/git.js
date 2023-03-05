@@ -7,6 +7,12 @@ function cleanStdout (stdout) {
   return stdout.trim().split('\n').filter(Boolean)
 }
 
+export async function gitInit () {
+  const { stdout } = await execAsync('git init')
+  // console.log(stdout)
+  return cleanStdout(stdout)
+}
+
 export async function getChangeFiles () {
   const { stdout } = await execAsync('git status --porcelain')
   // console.log(stdout)

@@ -4,7 +4,7 @@ import { trytm } from '@bdsqqq/try'
 
 import { exitProgram } from './utils.js'
 import { COMMIT_TYPES } from './commit-types.js'
-import { getChangeFiles, getStagesFiles, gitCommit, gitAdd } from './git.js'
+import { getChangeFiles, getStagesFiles, gitCommit, gitAdd, gitInit } from './git.js'
 
 intro(colors.inverse(`Commits creation assistant by ${colors.magenta(' @othamae ')}`))
 
@@ -12,8 +12,23 @@ const [changedFiles, errorChangedFiles] = await trytm(getChangeFiles())
 const [stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
 
 if (errorChangedFiles ?? errorStagesFiles) {
-  outro(colors.red('Error: Check that you are in a git repository'))
-  process.exit(1)
+  const createGitInit = await confirm({
+    initialValue: true,
+    message: `${colors.red('There is no git created in this repository')}
+      
+      ${colors.yellow(colors.bold('Do you want to create it?'))}`
+  })
+
+  if (isCancel(createGitInit)) exitProgram()
+
+  if (createGitInit) {
+    await gitInit()
+    outro(colors.green('✔ Git successfully created!!'))
+    process.exit(1)
+  } else {
+    outro(colors.red('There is no git for this repository'))
+    process.exit(1)
+  }
 }
 
 if (stagesFiles.length === 0 && changedFiles.length > 0) {
