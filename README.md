@@ -19,3 +19,4 @@ npm install -g mycommandcli
 npx mycocli
 ```
 
+![image](https://github.com/Othamae/MyCommand-Git-CLI/assets/90536006/d74ecc87-351e-4514-b0b9-1852f8cdf4b7)
