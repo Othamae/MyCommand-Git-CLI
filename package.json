@@ -1,6 +1,6 @@
 {
   "name": "mycommandcli",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Commit CLI_To help you create easier commits ",
   "type": "module",
   "bin": {
