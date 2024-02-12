@@ -71,9 +71,10 @@ if (stagesFiles.length > 0) {
 
     if (option === 'add') {
       const [unstagedChangeFiles] = await trytm(getUnstagedChangeFiles())
+      const sameFile = unstagedChangeFiles.length === 0
       const files = await multiselect({
         message: colors.cyan('Please, select the files you want to add to the commit:'),
-        options: unstagedChangeFiles.map(file => ({
+        options: (sameFile ? changedFiles : unstagedChangeFiles).map(file => ({
           value: file,
           label: file
         }))
