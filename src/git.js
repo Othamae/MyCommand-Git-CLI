@@ -25,6 +25,13 @@ export async function getStagesFiles () {
   return cleanStdout(stdout)
 }
 
+export async function getUnstagedChangeFiles () {
+  const { stdout } = await execAsync('git status --porcelain')
+  return cleanStdout(stdout)
+    .filter((line) => line.startsWith(' M') || line.startsWith('??'))
+    .map((line) => line.split(' ').at(-1))
+}
+
 export async function gitCommit ({ commit } = {}) {
   const { stdout } = await execAsync(`git commit -m "${commit}"`)
   // console.log(stdout)
@@ -34,6 +41,12 @@ export async function gitCommit ({ commit } = {}) {
 export async function gitAdd ({ files = [] } = {}) {
   const filesLine = files.join(' ')
   const { stdout } = await execAsync(`git add ${filesLine}`)
+  return cleanStdout(stdout)
+}
+
+export async function gitRemove ({ files = [] } = {}) {
+  const filesLine = files.join(' ')
+  const { stdout } = await execAsync(`git reset ${filesLine}`)
   return cleanStdout(stdout)
 }
 
