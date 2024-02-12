@@ -1,15 +1,15 @@
-import { intro, outro, text, select, confirm, multiselect, isCancel } from '@clack/prompts'
-import colors from 'picocolors'
 import { trytm } from '@bdsqqq/try'
+import { confirm, intro, isCancel, multiselect, outro, select, text } from '@clack/prompts'
+import colors from 'picocolors'
 
-import { exitProgram } from './utils.js'
 import { COMMIT_TYPES } from './commit-types.js'
-import { getChangeFiles, getStagesFiles, gitCommit, gitAdd, gitInit, gitPush } from './git.js'
+import { getChangeFiles, getStagesFiles, gitAdd, gitCommit, gitInit, gitPush } from './git.js'
+import { exitProgram } from './utils.js'
 
 intro(colors.inverse(`Commits creation assistant by ${colors.magenta(' @othamae ')}`))
 
-const [changedFiles, errorChangedFiles] = await trytm(getChangeFiles())
-const [stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
+let [changedFiles, errorChangedFiles] = await trytm(getChangeFiles())
+let [stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
 
 if (errorChangedFiles ?? errorStagesFiles) {
   const createGitInit = await confirm({
@@ -45,7 +45,11 @@ if (stagesFiles.length === 0 && changedFiles.length > 0) {
   await gitAdd({ files })
 }
 
-console.log({ changedFiles, stagesFiles })
+[changedFiles, errorChangedFiles] = await trytm(getChangeFiles());
+
+[stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
+
+console.log({ stagesFiles })
 
 const commitType = await select({
   message: colors.cyan('Select the type of commit:'),
