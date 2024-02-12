@@ -156,7 +156,7 @@ if (release) {
   if (isCancel(breakingChange)) exitProgram()
 }
 
-let commit = `${emoji} ${commitType} ${commitMsg}`
+let commit = `${commitType}: ${emoji} ${commitMsg}`
 commit = breakingChange ? `${commit}[breaking change]` : commit
 
 const shouldContinue = await confirm({
