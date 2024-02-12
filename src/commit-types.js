@@ -31,9 +31,29 @@ export const COMMIT_TYPES = {
     release: false
   },
   build: {
-    emoji: '🏗️ ',
+    emoji: '🏗️',
     description: 'Add or update build scripts',
     release: false
+  },
+  style: {
+    emoji: '💄',
+    description: 'Add or update styles',
+    release: true
+  },
+  accessibility: {
+    emoji: '♿',
+    description: 'Improve accessibility',
+    release: true
+  },
+  dependencies: {
+    emoji: '➕',
+    description: 'Add or Update dependencies',
+    release: true
+  },
+  responsive: {
+    emoji: '📱',
+    description: 'Work on responsive design',
+    release: true
   }
 
 }
