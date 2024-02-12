@@ -3,7 +3,7 @@ import { confirm, intro, isCancel, multiselect, outro, select, text } from '@cla
 import colors from 'picocolors'
 
 import { COMMIT_TYPES } from './commit-types.js'
-import { getChangeFiles, getStagesFiles, gitAdd, gitCommit, gitInit, gitPush } from './git.js'
+import { getChangeFiles, getStagesFiles, getUnstagedChangeFiles, gitAdd, gitCommit, gitInit, gitPush, gitRemove } from './git.js'
 import { exitProgram } from './utils.js'
 
 intro(colors.inverse(`Commits creation assistant by ${colors.magenta(' @othamae ')}`))
@@ -49,13 +49,80 @@ if (stagesFiles.length === 0 && changedFiles.length > 0) {
 
 [stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
 
-console.log({ stagesFiles })
+console.log({ changedFiles, stagesFiles })
+
+if (stagesFiles.length > 0) {
+  const action = await confirm({
+    initialValue: false,
+    message: colors.cyan('Do you want to change files from the stages?')
+  })
+
+  if (action) {
+    const option = await select({
+      message: colors.cyan('What do you want to do?'),
+      options: [
+        { value: 'add', label: 'Add more files' },
+        { value: 'remove', label: 'Remove some files' },
+        { value: 'none', label: 'Continue' }
+      ]
+    })
+
+    if (isCancel(option)) exitProgram()
+
+    if (option === 'add') {
+      const [unstagedChangeFiles] = await trytm(getUnstagedChangeFiles())
+      const files = await multiselect({
+        message: colors.cyan('Please, select the files you want to add to the commit:'),
+        options: unstagedChangeFiles.map(file => ({
+          value: file,
+          label: file
+        }))
+      })
+
+      if (isCancel(files)) exitProgram()
+      await gitAdd({ files })
+    }
+    if (option === 'remove') {
+      const files = await multiselect({
+        message: colors.cyan('Please, select the files you want to remove from the commit:'),
+        options: stagesFiles.map(file => ({
+          value: file,
+          label: file
+        }))
+      })
+
+      if (isCancel(files)) exitProgram()
+
+      await gitRemove({ files })
+    }
+  }
+  [changedFiles, errorChangedFiles] = await trytm(getChangeFiles());
+
+  [stagesFiles, errorStagesFiles] = await trytm(getStagesFiles())
+
+  console.log({ stagesFiles })
+  if (isCancel(action)) exitProgram()
+}
+
+if (stagesFiles.length === 0 && changedFiles.length > 0) {
+  const files = await multiselect({
+    message: colors.cyan('Please, select the files you want to add to the commit:'),
+    options: changedFiles.map(file => ({
+      value: file,
+      label: file
+    }))
+  })
+
+  if (isCancel(files)) exitProgram()
+
+  await gitAdd({ files })
+}
 
 const commitType = await select({
   message: colors.cyan('Select the type of commit:'),
   options: Object.entries(COMMIT_TYPES).map(([key, value]) => ({
     value: key,
-    label: `${value.emoji} ${key.padEnd(8, ' ')} · ${value.description}`
+    label: `${value.emoji} ${key.padEnd(15, ' ')} · ${value.description}`
   }))
 
 })
