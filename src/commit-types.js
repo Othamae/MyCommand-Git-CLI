@@ -31,7 +31,7 @@ export const COMMIT_TYPES = {
     release: false
   },
   build: {
-    emoji: '🏗️',
+    emoji: '🏗️ ',
     description: 'Add or update build scripts',
     release: false
   },
